@@ -1,4 +1,5 @@
 import kotlin.math.hypot
+import kotlin.text.concatToString
 import kotlinext.js.asJsObject
 import kotlinx.browser.document
 import kotlinx.browser.window
@@ -37,11 +38,19 @@ fun obfuscate(input: Element) {
     }
 }
 
+fun CharArray.map(transform: (Char) -> Char): CharArray {
+    for (i in this.indices) {
+        this[i] = transform(this[i])
+    }
+    return this
+}
+
 fun obfuscate(input: String): String {
     val allowedChars = ('A'..'Z') + ('a'..'z') + ('0'..'9')
-    return (1..input.length)
-        .map { allowedChars.random() }
-        .joinToString("")
+
+    return input.toCharArray()
+        .map { if (it != ' ') allowedChars.random() else it }
+        .concatToString()
 }
 
 fun doStuff(input: String) {
