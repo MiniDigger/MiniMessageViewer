@@ -1,21 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8">
     <title>MiniMessageViewer</title>
     <script src="MiniMessageViewer.js"></script>
-    <style>
-        body {
-            font-family: monospace;
-        }
-    </style>
-</head>
-<body>
-    <label for="input">Input: </label>
-    <input id="input" type="text" placeholder="<blue>Hello <red>World!" style="width: 500px; height: 20px">
-
-    <div id="output">
-
+    <link type="text/css" rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <h1>MiniMessage Viewer</h1>
+    <div class="wrapper">
+      <div class="input-panel">
+        <label for="input">Input: </label><br>
+        <textarea id="input" placeholder="<blue>Hello <red>World!"></textarea><br>
+      </div>
+      <div class="output-panel">
+        <label for="output">Output: </label><br>
+        <div class="output">
+          <div id="output"></div>
+        </div>
+      </div>
     </div>
-</body>
+  </body>
 </html>

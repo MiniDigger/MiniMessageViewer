@@ -1,8 +1,9 @@
+import kotlin.math.hypot
 import kotlinext.js.asJsObject
 import kotlinx.browser.document
 import kotlinx.browser.window
-import kotlinx.dom.isText
 import net.kyori.adventure.text.minimessage.MiniMessage
+import net.kyori.adventure.text.minimessage.markdown.MarkdownFlavor
 import org.w3c.dom.Element
 import org.w3c.dom.HTMLInputElement
 import org.w3c.dom.asList
@@ -46,9 +47,30 @@ fun obfuscate(input: String): String {
 fun doStuff(input: String) {
     val output = document.getElementById("output")!!
     output.textContent = ""
-    output.append(MiniMessage.get().parse(input).buildOutChildren())
+    val miniMessage = MiniMessage.builder().debug(object : Appendable {
+        override fun append(value: Char): Appendable {
+            print(value)
+            return this
+        }
+
+        override fun append(value: CharSequence?): Appendable {
+            print(value)
+            return this
+        }
+
+        override fun append(value: CharSequence?, startIndex: Int, endIndex: Int): Appendable {
+            TODO("Not yet implemented")
+        }
+
+    }).parsingErrorMessageConsumer { }.build()
+    input.split("\n").forEach {
+        println("BEGING PARSING $it")
+        output.append(miniMessage.parse(it).buildOutChildren())
+        println("DONE")
+        output.append(document.createElement("br"))
+    }
 }
 
-fun escapeHtml(str: String): String {
-    return str.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace("\"", "&quot;").replace("'", "&#039;")
+fun String.escapeHtml(): String {
+    return this.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace("\"", "&quot;").replace("'", "&#039;")
 }

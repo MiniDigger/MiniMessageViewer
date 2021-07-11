@@ -38,93 +38,46 @@ import net.kyori.adventure.text.minimessage.transformation.TransformationParser
  * @since 4.1.0
  */
 class HoverTransformation private constructor() : Transformation() {
-//  private var action: HoverEvent.Action<Any>? = null
-//  private var value: Any? = null
+  private var value: Component? = null
 
   override fun load(name: String, args: List<TagPart>) {
     super.load(name, args)
-//    if(args.size < 2) {
-//      throw ParsingException("Doesn't know how to turn $args into a hover event", *this.argTokenArray())
-//    }
-//    val newArgs: List<TagPart> = args.let { args.subList(1, it.size) }
-//    action = HoverEvent.Action.NAMES.value(args[0].value()) as HoverEvent.Action<Any?>
-//    value = if(action === HoverEvent.Action.SHOW_TEXT) {
-//      this.context.parse(newArgs[0].value())
-//    } else if(action === HoverEvent.Action.SHOW_ITEM) {
-//      parseShowItem(newArgs)
-//    } else if(action === HoverEvent.Action.SHOW_ENTITY) {
-//      parseShowEntity(newArgs)
-//    } else {
-//      throw ParsingException("Don't know how to turn '$args' into a hover event", *this.argTokenArray())
-//    }
+    if(args.size < 2) {
+      throw ParsingException("Doesn't know how to turn $args into a hover event", *this.argTokenArray())
+    }
+    val newArgs: List<TagPart> = args.let { args.subList(1, it.size) }
+    value = if(args[0].value().equals("show_text", true)) {
+      this.context!!.parse(newArgs[0].value())
+    } else {
+      throw ParsingException("Don't know how to turn '$args' into a hover event", *this.argTokenArray())
+    }
   }
 
-//  private fun parseShowItem(args: List<TagPart>): HoverEvent.ShowItem? {
-//    return try {
-//      if(args.isEmpty()) {
-//        throw ParsingException("Show item hover needs at least item id!")
-//      }
-//      val key: Key = Key.key(args[0].value())
-//      val count: Int
-//      count = if(args.size >= 2) {
-//        args[1].value().toInt()
-//      } else {
-//        1
-//      }
-//      if(args.size == 3) {
-//        HoverEvent.ShowItem.of(key, count, BinaryTagHolder.of(args[2].value()))
-//      } else HoverEvent.ShowItem.of(key, count)
-//    } catch(ex: NumberFormatException) {
-//      throw ParsingException("Exception parsing show_item hover", ex, *args.map(TagPart::token).toTypedArray())
-//    }
-//  }
-//
-//  private fun parseShowEntity(args: List<TagPart>): HoverEvent.ShowEntity? {
-//    return try {
-//      if(args.size < 2) {
-//        throw ParsingException("Show entity hover needs at least type and uuid!")
-//      }
-//      val key: Key = Key.key(args[0].value())
-//      val id: UUID = UUID.fromString(args[1].value())
-//      if(args.size == 3) {
-//        val name: Component = this.context!!.parse(args[2].value())
-//        return HoverEvent.ShowEntity.of(key, id, name)
-//      }
-//      HoverEvent.ShowEntity.of(key, id)
-//    } catch(ex: IllegalArgumentException) {
-//      throw ParsingException("Exception parsing show_entity hover", ex, *args.map(TagPart::token).toTypedArray())
-//    }
-//  }
-
   override fun apply(): Component {
-    TODO("not implemented")
-//    return Component.empty().hoverEvent(HoverEvent.hoverEvent(action, value))
+    val comp = Component.empty()
+    comp.hoverEvent = HoverEvent(value!!)
+    return comp
   }
 
   override fun toString(): String {
-    TODO("not implemented")
-//    return "HoverTransformation(action=$action, value=$value)"
+    return "HoverTransformation(value=$value)"
   }
 
   override fun equals(o: Any?): Boolean {
-    TODO("not implemented")
-//    if(this === o) return true
-//    if(o == null || this::class.js != o::class.js) return false
-//
-//    o as HoverTransformation
-//
-//    if(action != o.action) return false
-//    if(value != o.value) return false
-//
-//    return true
+    if(this === o) return true
+    if(o == null || this::class.js != o::class.js) return false
+
+    o as HoverTransformation
+
+    if(value != o.value) return false
+
+    return true
   }
 
   override fun hashCode(): Int {
-    TODO("not implemented")
-//    var result = 42
-//    result = 31 * result + (action.hashCode() ?: 0)
-//    result = 31 * result + (value?.hashCode() ?: 0)
-//    return result
+    var result = 42
+    result = 31 * result + (value?.hashCode() ?: 0)
+    return result
   }
 
   /**

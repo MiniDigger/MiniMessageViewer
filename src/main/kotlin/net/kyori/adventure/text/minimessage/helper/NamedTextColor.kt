@@ -2,6 +2,10 @@ package net.kyori.adventure.text.minimessage.helper
 
 class NamedTextColor(val name: String, value: Int): TextColor(value) {
 
+  override fun toString(): String {
+    return "NamedTextColor(name='$name')"
+  }
+
   companion object {
 
     private const val BLACK_VALUE = 0x000000

@@ -51,7 +51,9 @@ class ClickTransformation private constructor() : Transformation() {
   }
 
   override fun apply(): Component {
-    return Component.empty().clickEvent(ClickEvent.clickEvent(action, value))
+    val comp = Component.empty()
+    comp.clickEvent = ClickEvent(action!!, value!!)
+    return comp
   }
 
   override fun toString(): String {

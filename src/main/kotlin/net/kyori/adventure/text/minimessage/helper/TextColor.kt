@@ -17,6 +17,10 @@ open class TextColor(val value: Int) {
     return "#" + this.value.toString(16).padStart(6, '0')
   }
 
+  override fun toString(): String {
+    return "TextColor(hex=${asHexString()})"
+  }
+
   companion object {
     fun fromHexString(name: String): TextColor? {
       return if (name.startsWith("#")) {

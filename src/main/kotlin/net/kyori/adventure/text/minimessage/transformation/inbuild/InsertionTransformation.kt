@@ -48,7 +48,9 @@ class InsertionTransformation private constructor() : Transformation() {
   }
 
   override fun apply(): Component {
-    return Component.empty().insertion(insertion)
+    val component = Component.empty()
+    component.insertion = insertion
+    return component
   }
 
   override fun toString(): String {

@@ -249,9 +249,9 @@ internal class MiniMessageParser {
       return comp
     }
     val root: TextComponent = comp
-    if(root.content().isEmpty()) {
+    if(root.content == null || root.content!!.isEmpty()) {
       // this seems to be some kind of empty node, lets see if we can discard it, or if we have to merge it
-      val hasNoStyle = !root.hasStyling() && root.hoverEvent() == null && root.clickEvent() == null
+      val hasNoStyle = !root.hasStyling() && root.hoverEvent == null && root.clickEvent == null
       if(root.children().size === 1 && hasNoStyle) {
         // seems to be the root node, just discord it
         return root.children().get(0)
@@ -265,8 +265,8 @@ internal class MiniMessageParser {
         val copiedChildren: ArrayList<Component> = ArrayList(root.children().size - 1 + child.children().size)
         copiedChildren.addAll(child.children())
         copiedChildren.addAll(newChildren.subList(1, newChildren.size))
-        return root.content(if(child is TextComponent) child.content() else "")
-          .style(mergeStyle(root, child))
+        root.content = if(child is TextComponent) child.content else ""
+        return root.style(mergeStyle(root, child))
           .children(copiedChildren)
       } else if(root.children().size == 1) {
         // we got something we can merge

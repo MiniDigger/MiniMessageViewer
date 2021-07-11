@@ -1,11 +1,13 @@
 package net.kyori.adventure.text.minimessage.helper
 
 class TextComponent : Component() {
-  fun content(): String {
-    TODO("Not yet implemented")
-  }
+  var content: String? = null
+    set(value) {
+      dom.textContent = value
+      field = value
+    }
 
-  fun content(content: String): TextComponent {
-    TODO("Not yet implemented")
+  override fun toString(): String {
+    return "TextComponent(content=$content) ${super.toString()}"
   }
 }

@@ -1,33 +1,23 @@
 package net.kyori.adventure.text.minimessage.helper
 
-open class HoverEvent {
+import kotlin.random.Random
+import kotlinx.browser.document
+import kotlinx.dom.addClass
+import org.w3c.dom.Element
 
-//  companion object {
-//    fun hoverEvent(): HoverEvent {
-//      TODO("not yet implemented")
-//    }
-//
-//    fun hoverEvent(action: HoverEvent.Action<Any>?, value: Any?): HoverEvent {
-//      TODO("not yet implemented")
-//    }
-//  }
-//
-//  class Action<T> {
-//    companion object {
-//      val NAMES: Any
-//      val SHOW_ENTITY: Action
-//      val SHOW_ITEM: Action
-//      val SHOW_TEXT: Action
-//    }
-//
-//  }
-//
-//  class ShowItem: HoverEvent() {
-//
-//  }
-//
-//  class ShowEntity: HoverEvent() {
-//
-//  }
+open class HoverEvent(val component: Component) {
+  fun buildOut(dom: Element) {
+    val id = Random.nextInt(0, 100)
 
+    val el = document.createElement("span")
+    el.addClass("hover hover-$id")
+    el.append(component.buildOutChildren())
+
+    dom.addClass("hover-source hover-source-$id")
+    dom.append(el)
+  }
+
+  override fun toString(): String {
+    return "HoverEvent(component=$component)"
+  }
 }

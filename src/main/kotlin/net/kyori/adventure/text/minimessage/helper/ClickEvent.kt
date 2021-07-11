@@ -1,12 +1,26 @@
 package net.kyori.adventure.text.minimessage.helper
 
-class ClickEvent {
+import escapeHtml
+import kotlin.random.Random
+import kotlinx.browser.document
+import kotlinx.dom.addClass
+import org.w3c.dom.Element
 
-  companion object {
-    fun clickEvent(action: Action?, value: String?): ClickEvent {
-      TODO("Not yet implemented")
-    }
+class ClickEvent(val action: Action, val value: String) {
 
+  fun buildOut(dom: Element) {
+    val id = Random.nextInt(0, 100)
+
+    val el = document.createElement("span")
+    el.addClass("click hover hover-$id")
+    el.innerHTML = "Action: ${action.name}, Value: ${value.escapeHtml()}"
+
+    dom.addClass("click-source hover-source hover-source-$id")
+    dom.append(el)
+  }
+
+  override fun toString(): String {
+    return "ClickEvent(action=$action, value='$value')"
   }
 
   enum class Action(val myName: String, val readable: Boolean) {

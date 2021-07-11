@@ -84,8 +84,8 @@ class RainbowTransformation private constructor() : Transformation(), Modifying 
       }
       // This component has it's own color applied, which overrides ours
       // We still want to keep track of where we are though if this is text
-      if(current is TextComponent) {
-        val content: String = current.content()
+      if(current is TextComponent && current.content != null && current.content!!.isNotBlank()) {
+        val content: String = current.content!!
         val len: Int = content.length
         for(i in 0 until len) {
           // increment our color index
@@ -95,9 +95,9 @@ class RainbowTransformation private constructor() : Transformation(), Modifying 
       return current
     }
     disableApplyingColorDepth = -1
-    if(current is TextComponent && current.content().isNotEmpty()) {
+    if(current is TextComponent && current.content != null && current.content!!.isNotBlank()) {
       val textComponent: TextComponent = current
-      val content: String = textComponent.content()
+      val content: String = textComponent.content!!
       var parent: Component = Component.empty()
 
       // apply
