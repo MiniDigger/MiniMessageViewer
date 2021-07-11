@@ -3,6 +3,7 @@ import kotlin.text.concatToString
 import kotlinext.js.asJsObject
 import kotlinx.browser.document
 import kotlinx.browser.window
+import kotlinx.dom.hasClass
 import net.kyori.adventure.text.minimessage.MiniMessage
 import net.kyori.adventure.text.minimessage.markdown.MarkdownFlavor
 import org.w3c.dom.Element
@@ -29,6 +30,7 @@ fun obfuscateAll() {
 }
 
 fun obfuscate(input: Element) {
+    if (input.hasClass("hover")) return
     if (input.childElementCount > 0) {
         input.children.asList().forEach {
             obfuscate(it)
