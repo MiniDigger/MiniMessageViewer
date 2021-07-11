@@ -4,7 +4,7 @@
 
 A hacked together web based editor/viewer for MiniMessage.
 
---> **[Access it here](https://minidigger.github.io/CursedMessage/)** <--
+--> **[Access it here](https://minidigger.github.io/MiniMessageViewer/)** <--
 
 This was created by copy-pasting all code from MiniMessage's new parser into this project, telling IntelliJ to convert it to Kotlin,
 ripping out Adventure and replacing it with DOM calls, hacking till it compiles (**I don't know kotlin nor do I like it**) and throwing it on GitHub.
