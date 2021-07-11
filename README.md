@@ -9,6 +9,12 @@ A hacked together web based editor/viewer for MiniMessage.
 This was created by copy-pasting all code from MiniMessage's new parser into this project, telling IntelliJ to convert it to Kotlin,
 ripping out Adventure and replacing it with DOM calls, hacking till it compiles (**I don't know kotlin nor do I like it**) and throwing it on GitHub.
 
+## Status
+
+I will most likely not spend much time on this project. You can see a list of stuff I should do here: https://github.com/MiniDigger/MiniMessageViewer/issues/1  
+No gurantee that I will actually do that tho.  
+Contributions are welcome tho!
+
 ## Dev Setup
 
 ``
