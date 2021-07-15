@@ -25,6 +25,7 @@ enum class Mode {
     }
 }
 
+val homeUrl by lazy { window.location.href.split('?')[0] }
 var currentMode: Mode = Mode.CHAT
 
 // thanks kotlin you rock
@@ -33,6 +34,9 @@ external fun encodeURIComponent(string: String): String
 
 fun main() {
     document.addEventListener("DOMContentLoaded", {
+        // CORRECT HOME LINK
+        document.getElementById("home-link")!!.asJsObject().unsafeCast<HTMLAnchorElement>().href = homeUrl
+
         // SHARING
         val inputBox = document.getElementById("input")!!.asJsObject().unsafeCast<HTMLTextAreaElement>()
         val urlParams = URLSearchParams(window.location.search)
@@ -95,7 +99,7 @@ fun main() {
         val shareButton = document.getElementById("share-button")!!.asJsObject().unsafeCast<HTMLAnchorElement>()
         val shareBox = document.getElementById("share-box")!!.asJsObject().unsafeCast<HTMLDivElement>()
         shareButton.addEventListener("click", {
-            window.navigator.clipboard.writeText(window.location.href.split('?')[0] + "?input=" + encodeURIComponent(input.value)).then {
+            window.navigator.clipboard.writeText("$homeUrl?input=${encodeURIComponent(input.value)}").then {
                 shareBox.classList.add("is-active")
             }
         })
