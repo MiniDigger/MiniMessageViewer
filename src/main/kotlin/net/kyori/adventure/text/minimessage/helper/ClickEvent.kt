@@ -1,10 +1,10 @@
 package net.kyori.adventure.text.minimessage.helper
 
-import escapeHtml
 import kotlin.random.Random
 import kotlinx.browser.document
 import kotlinx.dom.addClass
 import org.w3c.dom.Element
+import org.w3c.dom.css.CSS.Companion.escape
 
 class ClickEvent(val action: Action, val value: String) {
 
@@ -13,7 +13,7 @@ class ClickEvent(val action: Action, val value: String) {
 
     val el = document.createElement("span")
     el.addClass("click hover hover-$id")
-    el.innerHTML = "Action: ${action.name}, Value: ${value.escapeHtml()}"
+    el.innerHTML = "Action: ${action.name}, Value: ${escape(value)}"
 
     dom.addClass("click-source hover-source hover-source-$id")
     dom.append(el)

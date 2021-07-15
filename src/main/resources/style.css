@@ -1,9 +1,13 @@
 /* font shit */
 * {
-    font-family: "Minecraft", monospace;
-    font-size: 21px;
+    font-size: 20px;
 }
-
+.mc-font {
+    font-family: "Minecraft", monospace;
+}
+.mono-font {
+    font-family: monospace, monospace;
+}
 @font-face {
     font-family: "Minecraft";
     src: url("font/1_Minecraft-Regular.woff") format("woff");
@@ -50,45 +54,76 @@
 .hover-source:hover .hover {
     visibility: visible;
 }
-/* other shit */
-.wrapper {
-    display: flex;
-    justify-content: space-evenly;
-}
-.input-panel {
-    width: 40%;
-}
-.output-panel {
-    width: 40%;
-}
-h1 {
-    text-align: center;
-    font-size: 25px;
-}
-#input {
-    width: 700px;
-    height: 400px;
-    padding: 5px;
-    margin-bottom: 5px;
-}
-.output {
-    position: relative;
-    background-image: url("background.jpg");
+/* output pane */
+#output-pane {
+    background-image: url("img/grass.png");
     background-size: cover;
-    height: 500px;
-    width: 700px;
 }
-#output {
-    position: absolute;
+#output-pane.mode-chat {
+    background-position: bottom left;
+}
+#output-pane.mode-hologram {
+    background-position: center center;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+#output-pane.mode-lore {
+    background-position: center center;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+/* output pre */
+#output-pre {
+    margin-bottom: 4px;
+    color: white;
     background-color: rgba(1, 1, 1, 0.4);
-    height: 360px;
-    width: 640px;
-    padding: 5px;
-    top: 5%;
+}
+#output-pre.mode-chat {
+    padding: 0 5px;
+    position: absolute;
+    width: 55%;
+    bottom: 0;
+    left: 36px;
+    right: 36px;
+    max-height: 385px;
+    overflow-x: hidden;
+    overflow-wrap: break-word;
+    white-space: break-spaces;
+    line-height: 19px;
+}
+#output-pre.mode-chat > div:first-child {
+    padding-top: 3px;
+}
+#output-pre.mode-hologram {
+    display: inline-flex;
+    padding: 5px 10px;
+    flex-direction: column;
+    line-height: 25px;
+    text-align: center;
+}
+#output-pre.mode-lore {
+    background-color: rgba(1, 1, 1, 0.8);
+    border: solid #1b0035;
+    display: inline-flex;
+    padding: 5px 0 5px 5px;
+    flex-direction: column;
+    line-height: 19px;
+    border-radius: 5px;
+}
+#output-pre.mode-lore > div:first-child:not(:only-child) {
+    padding-bottom: 7px;
+}
+/* other shit */
+.gone {
+    display: none;
 }
 body {
     background-color: gray;
 }
-.misc {
-    margin-top: 100px;
+html {
+    overflow-y: hidden;
 }
