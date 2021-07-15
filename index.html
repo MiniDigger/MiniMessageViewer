@@ -4,32 +4,128 @@
     <meta charset="UTF-8">
     <title>MiniMessageViewer</title>
     <script src="MiniMessageViewer.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css"
+          integrity="sha256-UDtbUHqpVVfXmdJcQVU/bfDEr9xldf3Dbd0ShD0Uf/Y=" crossorigin="anonymous">
     <link type="text/css" rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/js/all.min.js"
+            integrity="sha256-u11/XQI2A6mpXa0j1p0l0UpO3ZuiMTInGUqaT2K9ZWQ=" crossorigin="anonymous"></script>
   </head>
   <body>
-    <h1>MiniMessage Viewer</h1>
-    <div class="wrapper">
-      <div class="input-panel">
-        <label for="input">Input: </label><br>
-        <textarea id="input" placeholder="<blue>Hello <red>World!"></textarea><br>
+    <header class="navbar is-light is-clipped">
+      <div class="navbar-brand">
+        <a class="navbar-item" href="/">
+          <h1 class="title mc-font">MiniMessage Viewer</h1>
+        </a>
       </div>
-      <div class="output-panel">
-        <label for="output">Output: </label><br>
-        <div class="output">
-          <pre>
-            <div id="output"></div>
-          </pre>
+
+      <div class="navbar-menu">
+        <div class="navbar-start">
+          <div class="navbar-item">
+            <div class="buttons mc-font">
+              <button class="button mc-mode is-active" data-mode="CHAT">Chat</button>
+              <button class="button mc-mode" data-mode="LORE">Lore</button>
+              <button class="button mc-mode" data-mode="HOLOGRAM">Hologram</button>
+              <button class="button mc-mode" data-mode="BOOK" disabled>Book</button>
+            </div>
+          </div>
+        </div>
+        <div class="navbar-end">
+          <div class="navbar-item">
+            <div class="buttons">
+              <button class="button" id="share-button">
+                <span class="icon is-small"><i class="fas fa-share-alt"></i></span>
+              </button>
+              <a class="button" target="_blank" href="https://github.com/MiniDigger/MiniMessageViewer">
+                <span class="icon is-small"><i class="fab fa-github"></i></span>
+              </a>
+              <a class="button" target="_blank" href="https://docs.adventure.kyori.net/minimessage.html">
+                <span class="icon is-small"><i class="fas fa-book"></i></span>
+              </a>
+              <a class="button" target="_blank" href="https://discord.gg/MMfhJ8F">
+                <span class="icon is-small"><i class="fab fa-discord"></i></span>
+              </a>
+              <a class="button settings-button">
+                <span class="icon is-small"><i class="fas fa-cog"></i></span>
+              </a>
+            </div>
+          </div>
         </div>
       </div>
+    </header>
+
+    <section class="hero is-fullheight-with-navbar">
+      <div class="container is-fluid is-fullheight is-flex is-flex-direction-column mb-1">
+        <div class="columns mb-1">
+          <!-- INPUT -->
+          <div class="column is-full mt-1 pb-0">
+            <label for="input">Input: </label>
+            <textarea id="input" class="textarea has-fixed-size mono-font" rows="4" placeholder="<blue>Hello <red>World!" spellcheck="false"></textarea>
+          </div>
+        </div>
+
+        <div class="columns output-column is-flex-grow-1 is-flex-shrink-0">
+          <!-- OUTPUT -->
+          <div class="column is-full is-flex is-flex-direction-column">
+            <label for="output-pane">Output: </label>
+            <div id="output-pane" class="is-flex-grow-1 is-flex-shrink-0 mode-chat">
+              <pre id="output-pre" class="mode-chat mc-font"></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-foot">
+        <div class="container has-text-centered mb-2 mc-font">
+          &copy; 2021. Made by <a href="https://github.com/MiniDigger">MiniDigger</a>, under the influence of Beer&trade;.
+        </div>
+      </div>
+    </section>
+
+    <!-- SETTINGS -->
+    <div id="settings-box" class="modal">
+      <div class="modal-background settings-button"></div>
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="modal-card-title">Settings</p>
+          <button class="delete settings-button"></button>
+        </header>
+        <section class="modal-card-body">
+          <div class="field is-horizontal">
+            <div class="field-label is-small">
+              <label class="label" for="setting-background">Background</label>
+            </div>
+            <div class="field-body">
+              <div class="control">
+                <div class="select is-small">
+                  <select id="setting-background">
+                    <option value="desert">Desert</option>
+                    <option value="grass" selected>Grass</option>
+                    <option value="stone">Stone</option>
+                    <option value="water">Water</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <footer class="modal-card-foot">
+          <button class="button is-success settings-button">Close</button>
+        </footer>
+      </div>
     </div>
-    <div class="wrapper">
-      <div class="misc">
-        You can find documentation <a href="https://docs.adventure.kyori.net/minimessage.html">here</a>.<br>
-        A link to the MiniMessage Repo is <a href="https://github.com/KyoriPowered/adventure-text-minimessage">here</a>.<br>
-        The code for this cursed website is <a href="https://github.com/MiniDigger/MiniMessageViewer">here</a>, but don't ever look at it!<br>
-        Speaking of stuff to never look at, never look at the console if you don't want to see the debug output of the parser.<br>
-        <br>
-        &copy; 2021. Made by <a href="https://github.com/MiniDigger">MiniDigger</a>, under the influence of Beer&trade;.
+
+    <!-- CLIPBOARD STUFF -->
+    <div id="share-box" class="modal">
+      <div class="modal-background close-share-box"></div>
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="modal-card-title"></p>
+          <button class="delete close-share-box"></button>
+        </header>
+        <section class="modal-card-body has-text-centered">
+          <h2 class="subtitle is-2">Shareable link copied to clipboard!</h2>
+        </section>
+        <footer class="modal-card-foot"></footer>
       </div>
     </div>
   </body>
