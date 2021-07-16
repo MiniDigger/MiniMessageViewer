@@ -16,22 +16,22 @@ import org.w3c.dom.get
 import org.w3c.dom.url.URLSearchParams
 
 enum class Mode {
-    CHAT, LORE, HOLOGRAM, BOOK;
+    CHAT_OPEN, CHAT_CLOSED, LORE, HOLOGRAM, BOOK;
 
-    val className = "mode-${name.lowercase()}"
+    val className = "mode-${name.lowercase().replace('_', '-')}"
     val paramName = name.lowercase()
 
     companion object {
         val modes = values().asList()
         val index = modes.associateBy { it.name }
 
-        /** Gets a mode from [string], returning chat as a default. */
-        fun fromString(string: String?): Mode = index[string?.uppercase()] ?: CHAT
+        /** Gets a mode from [string], returning [CHAT_CLOSED] as a default. */
+        fun fromString(string: String?): Mode = index[string?.uppercase()] ?: CHAT_CLOSED
     }
 }
 
 val homeUrl by lazy { window.location.href.split('?')[0] }
-var currentMode: Mode = Mode.CHAT
+var currentMode: Mode = Mode.CHAT_CLOSED
 
 // thanks kotlin you rock
 external fun decodeURIComponent(encodedURI: String): String
@@ -48,6 +48,8 @@ fun main() {
         // SHARING
         val inputBox = document.getElementById("input")!!.asJsObject().unsafeCast<HTMLTextAreaElement>()
         val urlParams = URLSearchParams(window.location.search)
+        val outputPre = document.getElementById("output-pre")!!.asJsObject().unsafeCast<HTMLPreElement>()
+        val outputPane = document.getElementById("output-pane")!!.asJsObject().unsafeCast<HTMLDivElement>()
         urlParams.get(PARAM_INPUT)?.also { inputString ->
             val text = decodeURIComponent(inputString)
             inputBox.innerText = text
@@ -55,6 +57,8 @@ fun main() {
             parse(text)
         }
         currentMode = Mode.fromString(urlParams.get(PARAM_MODE))
+        outputPre.classList.add(currentMode.className)
+        outputPane.classList.add(currentMode.className)
 
         // INPUT
         val input = document.getElementById("input")!!.asJsObject().unsafeCast<HTMLTextAreaElement>()
@@ -68,6 +72,12 @@ fun main() {
         // OBFUSCATION
         window.setInterval( { obfuscateAll() }, 10)
 
+        // CARET
+        val chatBox = document.getElementById("chat-entry-box")!!.asJsObject().unsafeCast<HTMLDivElement>()
+        window.setInterval({
+            chatBox.innerHTML = if (chatBox.innerHTML == "_") " " else "_"
+        }, 380)
+
         // BUTTONS
         val settingsBox = document.getElementById("settings-box")
         document.getElementsByClassName("settings-button").asList().forEach { element ->
@@ -76,8 +86,6 @@ fun main() {
             })
         }
 
-        val outputPre = document.getElementById("output-pre")!!.asJsObject().unsafeCast<HTMLPreElement>()
-        val outputPane = document.getElementById("output-pane")!!.asJsObject().unsafeCast<HTMLDivElement>()
         val modeButtons = document.getElementsByClassName("mc-mode").asList().unsafeCast<List<HTMLElement>>()
         modeButtons.forEach { element ->
             // set is-active on the current mode first
@@ -198,7 +206,7 @@ fun parse(input: String) {
     }
 
     // reset scroll to bottom (like how chat works)
-    if (currentMode == Mode.CHAT) {
+    if (currentMode == Mode.CHAT_OPEN || currentMode == Mode.CHAT_CLOSED) {
         output.scrollTop = output.scrollHeight.toDouble()
     }
 }

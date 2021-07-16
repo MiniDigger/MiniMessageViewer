@@ -59,10 +59,26 @@
     background-image: url("img/grass.png");
     background-size: cover;
 }
-#output-pane.mode-chat {
+#output-pane.mode-chat-open, #output-pane.mode-chat-closed {
     background-position: bottom left;
     display: flex;
     align-items: flex-end;
+}
+#output-pane.mode-chat-open {
+    flex-direction: column-reverse;
+    align-items: flex-start;
+}
+#output-pane:not(.mode-chat-open) > #chat-entry-box {
+    display: none;
+}
+#output-pane.mode-chat-open > #chat-entry-box {
+    background-color: rgba(0, 0, 0, 0.4);
+    margin: 5px;
+    height: 22px;
+    width: calc(100% - 10px);
+    color: white;
+    line-height: 20px;
+    padding-left: 5px;
 }
 #output-pane.mode-hologram {
     background-position: center center;
@@ -84,12 +100,11 @@
     color: white;
     background-color: rgba(1, 1, 1, 0.4);
 }
-#output-pre.mode-chat {
+#output-pre.mode-chat-open, #output-pre.mode-chat-closed {
     padding: 0 5px;
     width: 55%;
     left: 36px;
     right: 36px;
-    max-height: 385px;
     overflow-x: hidden;
     overflow-wrap: break-word;
     white-space: break-spaces;
@@ -97,7 +112,16 @@
     display: inline-flex;
     flex-direction: column;
 }
-#output-pre.mode-chat > div:first-child {
+#output-pre.mode-chat-open {
+    max-height: 383px; /* 20 lines */
+    margin-bottom: 48px;
+}
+#output-pre.mode-chat-closed {
+    max-height: 193px; /* 10 lines */
+    overflow-y: hidden;
+    margin-bottom: 80px;
+}
+#output-pre.mode-chat-open > div:first-child, #output-pre.mode-chat-closed > div:first-child {
     padding-top: 3px;
 }
 #output-pre.mode-hologram {
@@ -121,7 +145,7 @@
 }
 /* other shit */
 #main-container {
-    padding: 32px;
+    padding: 0 32px;
     width: 100%;
 }
 .gone {
