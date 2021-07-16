@@ -133,6 +133,14 @@ fun main() {
             })
         }
 
+        // BURGER MENU
+        val burgerMenu = document.getElementById("burger-menu")!!
+        val navbarMenu = document.getElementById("navbar-menu")!!
+        burgerMenu.addEventListener("click", {
+            burgerMenu.classList.toggle("is-active")
+            navbarMenu.classList.toggle("is-active")
+        })
+
         // SETTINGS
         val settingBackground = document.getElementById("setting-background")!!.asJsObject().unsafeCast<HTMLSelectElement>()
         settingBackground.addEventListener("change", {
