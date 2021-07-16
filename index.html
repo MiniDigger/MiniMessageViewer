@@ -16,13 +16,19 @@
         <a class="navbar-item" id="home-link">
           <h1 class="title mc-font">MiniMessage Viewer</h1>
         </a>
+        <a id="burger-menu" class="navbar-burger" role="button">
+          <span></span>
+          <span></span>
+          <span></span>
+        </a>
       </div>
 
-      <div class="navbar-menu">
+      <div id="navbar-menu" class="navbar-menu">
         <div class="navbar-start">
           <div class="navbar-item">
             <div class="buttons mc-font">
-              <button class="button mc-mode is-active" data-mode="CHAT">Chat</button>
+              <button class="button mc-mode" data-mode="CHAT_CLOSED">Chat (Closed)</button>
+              <button class="button mc-mode" data-mode="CHAT_OPEN">Chat (Open)</button>
               <button class="button mc-mode" data-mode="LORE">Lore</button>
               <button class="button mc-mode" data-mode="HOLOGRAM">Hologram</button>
               <button class="button mc-mode" data-mode="BOOK" disabled>Book</button>
@@ -54,7 +60,7 @@
     </header>
 
     <section class="hero is-fullheight-with-navbar">
-      <div class="container is-fluid is-fullheight is-flex is-flex-direction-column mb-1">
+      <div id="main-container" class="container is-flex is-flex-direction-column mb-1">
         <div class="columns mb-1">
           <!-- INPUT -->
           <div class="column is-full mt-1 pb-0">
@@ -67,8 +73,9 @@
           <!-- OUTPUT -->
           <div class="column is-full is-flex is-flex-direction-column">
             <label for="output-pane">Output: </label>
-            <div id="output-pane" class="is-flex-grow-1 is-flex-shrink-0 mode-chat">
-              <pre id="output-pre" class="mode-chat mc-font"></pre>
+            <div id="output-pane" class="is-flex-grow-1 is-flex-shrink-0">
+              <div id="chat-entry-box">_</div>
+              <pre id="output-pre" class="mc-font"></pre>
             </div>
           </div>
         </div>
