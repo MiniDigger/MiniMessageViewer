@@ -186,10 +186,13 @@ fun parse(input: String) {
     }).parsingErrorMessageConsumer { }.build()
     val lines = input.split("\n")
 
-    lines.forEach {
-        println("BEGING PARSING $it")
+    lines.map { line ->
+        // we don't want to lose empty lines, so replace them with zero-width space
+        if (line == "") "\u200B" else line
+    }.forEach { line ->
+        println("BEGING PARSING \"$line\"")
         val div = document.createElement("div")
-        div.append(miniMessage.parse(it).buildOutChildren())
+        div.append(miniMessage.parse(line).buildOutChildren())
         output.append(div)
         println("DONE")
     }
