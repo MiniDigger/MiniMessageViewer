@@ -61,6 +61,8 @@
 }
 #output-pane.mode-chat {
     background-position: bottom left;
+    display: flex;
+    align-items: flex-end;
 }
 #output-pane.mode-hologram {
     background-position: center center;
@@ -84,9 +86,7 @@
 }
 #output-pre.mode-chat {
     padding: 0 5px;
-    position: absolute;
     width: 55%;
-    bottom: 0;
     left: 36px;
     right: 36px;
     max-height: 385px;
@@ -94,6 +94,8 @@
     overflow-wrap: break-word;
     white-space: break-spaces;
     line-height: 19px;
+    display: inline-flex;
+    flex-direction: column;
 }
 #output-pre.mode-chat > div:first-child {
     padding-top: 3px;
@@ -118,6 +120,10 @@
     padding-bottom: 7px;
 }
 /* other shit */
+#main-container {
+    padding: 32px;
+    width: 100%;
+}
 .gone {
     display: none;
 }
