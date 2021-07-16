@@ -19,9 +19,14 @@ enum class Mode {
     CHAT, LORE, HOLOGRAM, BOOK;
 
     val className = "mode-${name.lowercase()}"
+    val paramName = name.lowercase()
 
     companion object {
         val modes = values().asList()
+        val index = modes.associateBy { it.name }
+
+        /** Gets a mode from [string], returning chat as a default. */
+        fun fromString(string: String?): Mode = index[string?.uppercase()] ?: CHAT
     }
 }
 
@@ -32,6 +37,9 @@ var currentMode: Mode = Mode.CHAT
 external fun decodeURIComponent(encodedURI: String): String
 external fun encodeURIComponent(string: String): String
 
+const val PARAM_INPUT = "input"
+const val PARAM_MODE = "mode"
+
 fun main() {
     document.addEventListener("DOMContentLoaded", {
         // CORRECT HOME LINK
@@ -40,12 +48,13 @@ fun main() {
         // SHARING
         val inputBox = document.getElementById("input")!!.asJsObject().unsafeCast<HTMLTextAreaElement>()
         val urlParams = URLSearchParams(window.location.search)
-        urlParams.get("input")?.also { inputString ->
+        urlParams.get(PARAM_INPUT)?.also { inputString ->
             val text = decodeURIComponent(inputString)
             inputBox.innerText = text
             println("SHARED: $text")
             parse(text)
         }
+        currentMode = Mode.fromString(urlParams.get(PARAM_MODE))
 
         // INPUT
         val input = document.getElementById("input")!!.asJsObject().unsafeCast<HTMLTextAreaElement>()
@@ -71,6 +80,13 @@ fun main() {
         val outputPane = document.getElementById("output-pane")!!.asJsObject().unsafeCast<HTMLDivElement>()
         val modeButtons = document.getElementsByClassName("mc-mode").asList().unsafeCast<List<HTMLElement>>()
         modeButtons.forEach { element ->
+            // set is-active on the current mode first
+            val mode = Mode.valueOf(element.dataset["mode"]!!)
+            if (currentMode == mode) {
+                element.classList.add("is-active")
+            }
+
+            // then add event listeners for the rest
             element.addEventListener("click", { event ->
                 // remove active
                 modeButtons.forEach { button ->
@@ -80,7 +96,7 @@ fun main() {
                 // now add it again lmao 10/10 code
                 val button = event.target!!.asJsObject().unsafeCast<HTMLAnchorElement>()
                 button.classList.add("is-active")
-                currentMode = Mode.valueOf(button.dataset["mode"]!!)
+                currentMode = mode
 
                 // swap the class for the pane
                 Mode.modes.forEach { mode ->
@@ -99,7 +115,7 @@ fun main() {
         val shareButton = document.getElementById("share-button")!!.asJsObject().unsafeCast<HTMLAnchorElement>()
         val shareBox = document.getElementById("share-box")!!.asJsObject().unsafeCast<HTMLDivElement>()
         shareButton.addEventListener("click", {
-            window.navigator.clipboard.writeText("$homeUrl?input=${encodeURIComponent(input.value)}").then {
+            window.navigator.clipboard.writeText("$homeUrl?$PARAM_MODE=${currentMode.paramName}&$PARAM_INPUT=${encodeURIComponent(input.value)}").then {
                 shareBox.classList.add("is-active")
             }
         })
