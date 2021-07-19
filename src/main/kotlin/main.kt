@@ -22,16 +22,17 @@ enum class Mode {
     val paramName = name.lowercase()
 
     companion object {
+        val default = CHAT_CLOSED
         val modes = values().asList()
         val index = modes.associateBy { it.name }
 
         /** Gets a mode from [string], returning [CHAT_CLOSED] as a default. */
-        fun fromString(string: String?): Mode = index[string?.uppercase()] ?: CHAT_CLOSED
+        fun fromString(string: String?): Mode = index[string?.uppercase()] ?: default
     }
 }
 
 val homeUrl by lazy { window.location.href.split('?')[0] }
-var currentMode: Mode = Mode.CHAT_CLOSED
+lateinit var currentMode: Mode
 
 // thanks kotlin you rock
 external fun decodeURIComponent(encodedURI: String): String
@@ -50,15 +51,17 @@ fun main() {
         val urlParams = URLSearchParams(window.location.search)
         val outputPre = document.getElementById("output-pre")!!.asJsObject().unsafeCast<HTMLPreElement>()
         val outputPane = document.getElementById("output-pane")!!.asJsObject().unsafeCast<HTMLDivElement>()
+
+        currentMode = Mode.fromString(urlParams.get(PARAM_MODE))
+        outputPre.classList.add(currentMode.className)
+        outputPane.classList.add(currentMode.className)
+
         urlParams.get(PARAM_INPUT)?.also { inputString ->
             val text = decodeURIComponent(inputString)
             inputBox.innerText = text
             println("SHARED: $text")
             parse(text)
         }
-        currentMode = Mode.fromString(urlParams.get(PARAM_MODE))
-        outputPre.classList.add(currentMode.className)
-        outputPane.classList.add(currentMode.className)
 
         // INPUT
         val input = document.getElementById("input")!!.asJsObject().unsafeCast<HTMLTextAreaElement>()
