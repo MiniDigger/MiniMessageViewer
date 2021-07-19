@@ -144,6 +144,9 @@
     padding-bottom: 7px;
 }
 /* other shit */
+.is-horizontal {
+    align-items: center;
+}
 #main-container {
     padding: 0 32px;
     width: 100%;
@@ -152,7 +155,7 @@
     display: none;
 }
 body {
-    background-color: gray;
+    background-color: #E6E6E6;
 }
 html {
     overflow-y: hidden;
