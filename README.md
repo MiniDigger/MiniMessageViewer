@@ -2,6 +2,8 @@
 
 > It's cursed
 
+**in fact, its so cursed that its dead now, a much better version can be found [here](https://github.com/KyoriPowered/adventure-webui).**  
+
 A hacked together web based editor/viewer for MiniMessage.
 
 --> **[Access it here](https://minidigger.github.io/MiniMessageViewer/)** <--
